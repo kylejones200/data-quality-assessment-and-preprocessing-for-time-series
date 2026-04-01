@@ -1,13 +1,51 @@
 # Data Quality Assessment and Preprocessing for Time Series
 
-**Published:** 2025-01-17
-**Medium:** [https://medium.com/@kyle-t-jones/data-quality-assessment-and-preprocessing-for-time-series-59af0a237dc7](https://medium.com/@kyle-t-jones/data-quality-assessment-and-preprocessing-for-time-series-59af0a237dc7)
+This project demonstrates data quality assessment and preprocessing techniques for time series data.
 
-## About
+## Article
 
-Place the code for this article in this repository.
-The original article export is saved as `article.md`.
+Medium article: [Data Quality Assessment and Preprocessing for Time Series](https://medium.com/@kylejones_47003/data-quality-assessment-and-preprocessing-for-time-series-59af0a237dc7)
 
-## Files
+## Project Structure
 
-Add your `.ipynb`, `.py`, `.yaml`, `.js`, `.ts`, or other project files here.
+```
+.
+├── README.md           # This file
+├── main.py            # Main entry point
+├── config.yaml        # Configuration file
+├── requirements.txt   # Python dependencies
+├── src/               # Core functions
+│   ├── core.py        # Data quality functions
+│   └── plotting.py    # Tufte-style plotting utilities
+├── tests/             # Unit tests
+├── data/              # Data files
+└── images/            # Generated plots and figures
+```
+
+## Configuration
+
+Edit `config.yaml` to customize:
+- Data source or synthetic generation
+- Preprocessing options (missing values, duplicates, outliers)
+- Outlier handling method
+- Output settings
+
+## Data Quality Features
+
+Assessment metrics:
+- **Missing values**: Count and percentage
+- **Duplicates**: Duplicate row detection
+- **Outliers**: Statistical outlier detection
+- **Data range**: Min-max spread
+- **Variance**: Data variability
+
+Preprocessing steps:
+- Forward/backward fill for missing values
+- Duplicate removal
+- Outlier clipping (IQR method)
+
+## Caveats
+
+- By default, generates synthetic data with quality issues.
+- IQR outlier method may be too aggressive for some datasets.
+- Preprocessing should be tailored to specific use cases.
