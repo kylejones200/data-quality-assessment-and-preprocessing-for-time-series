@@ -40,7 +40,7 @@ def preprocess_time_series(df: pd.DataFrame, value_col: str) -> pd.DataFrame:
     return df
 
 def plot_data_quality(original: pd.Series, processed: pd.Series, title: str, output_path: Path):
- """Plot data quality comparison """
+    """Plot data quality comparison """
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
     
     ax1.plot(original.index, original.values, color="#4A90A4", linewidth=1.2, alpha=0.7)
