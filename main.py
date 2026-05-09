@@ -55,7 +55,7 @@ def main():
     logging.info(f"Data range: {quality['data_range']:.4f}")
     
     if config['preprocessing']['handle_missing'] or config['preprocessing']['handle_outliers']:
-                df_processed = preprocess_time_series(df, config['data']['value_column'])
+        df_processed = preprocess_time_series(df, config['data']['value_column'])
         
         quality_processed = assess_data_quality(df_processed, config['data']['value_column'])
         logging.info(f"\nAfter Preprocessing:")

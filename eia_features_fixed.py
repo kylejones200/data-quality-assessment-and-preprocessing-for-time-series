@@ -7,6 +7,12 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error
 
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 np.random.seed(42)
 plt.rcParams.update(
     {
@@ -90,8 +96,8 @@ def main():
     cfg = Config()
     y = load_series(cfg)
     mean_mae, imp, y_true, y_pred = rolling_origin_importance(y, cfg)
-    print(f"RF feature baseline mean MAE: {mean_mae}")
-    print(imp.head(10).to_string())
+    logger.info(f"RF feature baseline mean MAE: {mean_mae}")
+    logger.info(imp.head(10).to_string())
 
     # Importance figure
     plt.figure(figsize=(10, 5))
