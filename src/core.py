@@ -26,7 +26,7 @@ def preprocess_time_series(df: pd.DataFrame, value_col: str) -> pd.DataFrame:
     """Preprocess time series data."""
     df = df.copy()
     
-    df[value_col] = df[value_col].fillna(method='ffill').fillna(method='bfill')
+    df[value_col] = df[value_col].ffill().bfill()
     df = df.drop_duplicates()
     
     Q1 = df[value_col].quantile(0.25)
@@ -39,18 +39,19 @@ def preprocess_time_series(df: pd.DataFrame, value_col: str) -> pd.DataFrame:
     
     return df
 
-def plot_data_quality(original: pd.Series, processed: pd.Series, title: str, output_path: Path):
+def plot_data_quality(original: pd.Series, processed: pd.Series, title: str, output_path: Path, plot: bool = False):
     """Plot data quality comparison """
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
+    if plot:
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
     
-    ax1.plot(original.index, original.values, color="#4A90A4", linewidth=1.2, alpha=0.7)
-    ax1.set_ylabel("Value")
+        ax1.plot(original.index, original.values, color="#4A90A4", linewidth=1.2, alpha=0.7)
+        ax1.set_ylabel("Value")
     
-    ax2.plot(processed.index, processed.values, color="#D4A574", linewidth=1.2, alpha=0.7)
-    ax2.set_xlabel("Time")
-    ax2.set_ylabel("Value")
+        ax2.plot(processed.index, processed.values, color="#D4A574", linewidth=1.2, alpha=0.7)
+        ax2.set_xlabel("Time")
+        ax2.set_ylabel("Value")
     
-    plt.tight_layout()
-    plt.savefig(output_path, dpi=100, bbox_inches='tight', facecolor='white')
-    plt.close()
+        plt.tight_layout()
+        plt.savefig(output_path, dpi=100, bbox_inches='tight', facecolor='white')
+        plt.close()
 
