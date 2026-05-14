@@ -33,11 +33,11 @@ Edit `config.yaml` to customize:
 ## Data Quality Features
 
 Assessment metrics:
-- **Missing values**: Count and percentage
-- **Duplicates**: Duplicate row detection
-- **Outliers**: Statistical outlier detection
-- **Data range**: Min-max spread
-- **Variance**: Data variability
+- Missing values: Count and percentage
+- Duplicates: Duplicate row detection
+- Outliers: Statistical outlier detection
+- Data range: Min-max spread
+- Variance: Data variability
 
 Preprocessing steps:
 - Forward/backward fill for missing values
