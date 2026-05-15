@@ -2,16 +2,18 @@
 """Data quality assessment and preprocessing — Polars + DuckDB rewrite."""
 
 import argparse
-import yaml
 import logging
-import numpy as np
-import polars as pl
 from datetime import date, timedelta
 from pathlib import Path
 
-from core import assess_data_quality, preprocess_time_series, plot_data_quality
+import numpy as np
+import polars as pl
+import yaml
+from core import assess_data_quality, plot_data_quality, preprocess_time_series
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def load_config(config_path: Path = None) -> dict:
@@ -31,7 +33,11 @@ def main():
     config = load_config(args.config)
     value_col = config["data"]["value_column"]
     date_col = config["data"]["date_column"]
-    output_dir = Path(args.output_dir) if args.output_dir else Path(config["output"]["figures_dir"])
+    output_dir = (
+        Path(args.output_dir)
+        if args.output_dir
+        else Path(config["output"]["figures_dir"])
+    )
     output_dir.mkdir(exist_ok=True)
 
     if args.data_path and args.data_path.exists():
@@ -46,14 +52,18 @@ def main():
         null_idx = rng.choice(n, 10, replace=False).tolist()
         spike_idx = rng.choice(n, 5, replace=False).tolist()
         values[spike_idx] += 10
-        values_list = [None if i in null_idx else float(v) for i, v in enumerate(values)]
+        values_list = [
+            None if i in null_idx else float(v) for i, v in enumerate(values)
+        ]
         df = pl.DataFrame({date_col: dates, value_col: values_list})
     else:
         raise ValueError("No data source specified")
 
     quality = assess_data_quality(df, value_col)
     logging.info("Data Quality Metrics:")
-    logging.info(f"  Missing values : {quality['missing_values']} ({quality['missing_pct']:.2f}%)")
+    logging.info(
+        f"  Missing values : {quality['missing_values']} ({quality['missing_pct']:.2f}%)"
+    )
     logging.info(f"  Duplicates     : {quality['duplicates']}")
     logging.info(f"  Outliers       : {quality['outliers']}")
     logging.info(f"  Data range     : {quality['data_range']:.4f}")

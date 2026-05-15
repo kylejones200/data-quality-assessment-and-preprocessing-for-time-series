@@ -1,14 +1,16 @@
 """Data quality assessment and preprocessing using Polars and DuckDB."""
 
-import duckdb
-import polars as pl
-import matplotlib.pyplot as plt
 from pathlib import Path
+
+import duckdb
+import matplotlib.pyplot as plt
+import polars as pl
 
 
 def assess_data_quality(df: pl.DataFrame, value_col: str) -> dict:
     """Quality metrics via DuckDB SQL; duplicate count via Polars."""
-    stats = duckdb.sql(f"""
+    stats = (
+        duckdb.sql(f"""
         WITH bounds AS (
             SELECT
                 QUANTILE_CONT("{value_col}", 0.01) AS q01,
@@ -23,7 +25,10 @@ def assess_data_quality(df: pl.DataFrame, value_col: str) -> dict:
             MAX(d."{value_col}") - MIN(d."{value_col}")                                 AS data_range,
             VAR_SAMP(d."{value_col}")                                                   AS variance
         FROM df d, bounds b
-    """).pl().row(0, named=True)
+    """)
+        .pl()
+        .row(0, named=True)
+    )
 
     return {
         **stats,
@@ -33,25 +38,29 @@ def assess_data_quality(df: pl.DataFrame, value_col: str) -> dict:
 
 def preprocess_time_series(df: pl.DataFrame, value_col: str) -> pl.DataFrame:
     """Deduplicate, forward/back fill nulls, clip IQR outliers — bounds from DuckDB."""
-    bounds = duckdb.sql(f"""
+    bounds = (
+        duckdb.sql(f"""
         SELECT
             QUANTILE_CONT("{value_col}", 0.25) - 1.5
                 * (QUANTILE_CONT("{value_col}", 0.75) - QUANTILE_CONT("{value_col}", 0.25)) AS lower_bound,
             QUANTILE_CONT("{value_col}", 0.75) + 1.5
                 * (QUANTILE_CONT("{value_col}", 0.75) - QUANTILE_CONT("{value_col}", 0.25)) AS upper_bound
         FROM df
-    """).pl().row(0, named=True)
+    """)
+        .pl()
+        .row(0, named=True)
+    )
 
     return (
         df.unique()
-          .with_columns(
-              pl.col(value_col)
-                .fill_null(strategy="forward")
-                .fill_null(strategy="backward")
-          )
-          .with_columns(
-              pl.col(value_col).clip(bounds["lower_bound"], bounds["upper_bound"])
-          )
+        .with_columns(
+            pl.col(value_col)
+            .fill_null(strategy="forward")
+            .fill_null(strategy="backward")
+        )
+        .with_columns(
+            pl.col(value_col).clip(bounds["lower_bound"], bounds["upper_bound"])
+        )
     )
 
 
