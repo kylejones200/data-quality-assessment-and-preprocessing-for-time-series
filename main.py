@@ -18,7 +18,7 @@ def load_config(config_path: Path = None) -> dict:
     if config_path is None:
         config_path = Path(__file__).parent / 'config.yaml'
     
-    with open(config_path, 'r') as f:
+    with open(config_path) as f:
         return yaml.safe_load(f)
 
 def main():
@@ -48,7 +48,7 @@ def main():
     
         quality = assess_data_quality(df, config['data']['value_column'])
     
-    logging.info(f"\nData Quality Metrics:")
+    logging.info("\nData Quality Metrics:")
     logging.info(f"Missing values: {quality['missing_values']} ({quality['missing_percentage']:.2f}%)")
     logging.info(f"Duplicates: {quality['duplicates']}")
     logging.info(f"Outliers: {quality['outliers']}")
@@ -58,7 +58,7 @@ def main():
         df_processed = preprocess_time_series(df, config['data']['value_column'])
         
         quality_processed = assess_data_quality(df_processed, config['data']['value_column'])
-        logging.info(f"\nAfter Preprocessing:")
+        logging.info("\nAfter Preprocessing:")
         logging.info(f"Missing values: {quality_processed['missing_values']}")
         logging.info(f"Outliers: {quality_processed['outliers']}")
         

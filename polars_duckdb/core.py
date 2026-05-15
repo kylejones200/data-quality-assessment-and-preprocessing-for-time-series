@@ -4,10 +4,9 @@ import duckdb
 import polars as pl
 import matplotlib.pyplot as plt
 from pathlib import Path
-from typing import Dict
 
 
-def assess_data_quality(df: pl.DataFrame, value_col: str) -> Dict:
+def assess_data_quality(df: pl.DataFrame, value_col: str) -> dict:
     """Quality metrics via DuckDB SQL; duplicate count via Polars."""
     stats = duckdb.sql(f"""
         WITH bounds AS (

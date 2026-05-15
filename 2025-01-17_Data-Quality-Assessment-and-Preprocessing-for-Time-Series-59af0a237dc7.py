@@ -2,7 +2,6 @@
 
 
 
-from datetime import datetime, timedelta
 from scipy import stats
 import logging
 import matplotlib.pyplot as plt
@@ -42,7 +41,7 @@ def assess_time_series_completeness(df, timestamp_col, value_col):
     irregular_intervals = time_diff != expected_diff
     
     # Generate completeness report
-    logger.info(f"Data Completeness Assessment:")
+    logger.info("Data Completeness Assessment:")
     logger.info(f"Total observations: {total_count}")
     logger.info(f"Missing values: {missing_count} ({missing_count/total_count:.2%})")
     logger.info(f"Irregular intervals: {irregular_intervals.sum()}")

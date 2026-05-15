@@ -1,16 +1,14 @@
 """Core functions for data quality assessment and preprocessing for time series."""
 
-import numpy as np
 import pandas as pd
 from pathlib import Path
-from typing import Dict
 import matplotlib.pyplot as plt
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-def assess_data_quality(df: pd.DataFrame, value_col: str) -> Dict:
+def assess_data_quality(df: pd.DataFrame, value_col: str) -> dict:
     """Assess data quality metrics."""
     return {
         'missing_values': df[value_col].isnull().sum(),

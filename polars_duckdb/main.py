@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Data quality assessment and preprocessing — Polars + DuckDB rewrite."""
 
-import sys
 import argparse
 import yaml
 import logging
