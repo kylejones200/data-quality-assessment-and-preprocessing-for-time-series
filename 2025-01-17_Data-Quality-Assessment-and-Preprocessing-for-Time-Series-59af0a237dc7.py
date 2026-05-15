@@ -8,6 +8,7 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+np.random.seed(42)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -18,7 +19,6 @@ logging.basicConfig(
 
 
 # Create a sample time series with intentional quality issues
-np.random.seed(42)
 dates = pd.date_range(start='2024-01-01', end='2024-12-31', freq='D')
 values = 100 + np.random.normal(0, 10, len(dates))
 
