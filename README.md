@@ -49,3 +49,11 @@ Preprocessing steps:
 - By default, generates synthetic data with quality issues.
 - IQR outlier method may be too aggressive for some datasets.
 - Preprocessing should be tailored to specific use cases.
+
+## Disclaimer
+
+Educational/demo code only. Not financial, safety, or engineering advice. Use at your own risk. Verify results independently before any production or operational use.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -53,20 +53,22 @@ def plot_data_quality(
     plot: bool = False,
 ):
     """Plot data quality comparison"""
-    if plot:
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
+    if not plot:
+        return
 
-        ax1.plot(
-            original.index, original.values, color="#4A90A4", linewidth=1.2, alpha=0.7
-        )
-        ax1.set_ylabel("Value")
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
 
-        ax2.plot(
-            processed.index, processed.values, color="#D4A574", linewidth=1.2, alpha=0.7
-        )
-        ax2.set_xlabel("Time")
-        ax2.set_ylabel("Value")
+    ax1.plot(
+        original.index, original.values, color="#4A90A4", linewidth=1.2, alpha=0.7
+    )
+    ax1.set_ylabel("Value")
 
-        plt.tight_layout()
-        plt.savefig(output_path, dpi=100, bbox_inches="tight", facecolor="white")
-        plt.close()
+    ax2.plot(
+        processed.index, processed.values, color="#D4A574", linewidth=1.2, alpha=0.7
+    )
+    ax2.set_xlabel("Time")
+    ax2.set_ylabel("Value")
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=100, bbox_inches="tight", facecolor="white")
+    plt.close()
