@@ -29,7 +29,6 @@ def assess_data_quality(df: pl.DataFrame, value_col: str) -> dict:
         .pl()
         .row(0, named=True)
     )
-
     return {
         **stats,
         "duplicates": df.height - df.unique().height,
@@ -50,7 +49,6 @@ def preprocess_time_series(df: pl.DataFrame, value_col: str) -> pl.DataFrame:
         .pl()
         .row(0, named=True)
     )
-
     return (
         df.unique()
         .with_columns(
@@ -74,16 +72,13 @@ def plot_data_quality(
         return
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
-
     ax1.plot(original.to_list(), color="#4A90A4", linewidth=1.2, alpha=0.7)
     ax1.set_ylabel("Value")
     ax1.set_title("Original")
-
     ax2.plot(processed.to_list(), color="#D4A574", linewidth=1.2, alpha=0.7)
     ax2.set_xlabel("Time")
     ax2.set_ylabel("Value")
     ax2.set_title("After Preprocessing")
-
     plt.suptitle(title)
     plt.tight_layout()
     plt.savefig(output_path, dpi=100, bbox_inches="tight", facecolor="white")

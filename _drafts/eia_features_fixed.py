@@ -86,7 +86,6 @@ def main(plot: bool = False):
     mean_mae, imp, y_true, y_pred = rolling_origin_importance(y, cfg)
     logger.info(f"RF feature baseline mean MAE: {mean_mae}")
     logger.info(imp.head(10).to_string())
-
     # Importance figure
     if plot:
         plt.figure(figsize=(10, 5))

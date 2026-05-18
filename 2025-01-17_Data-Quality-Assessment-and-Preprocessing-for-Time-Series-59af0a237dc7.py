@@ -1,6 +1,5 @@
 # Description: Short example for Data Quality Assessment and Preprocessing for Time Series.
 
-
 import logging
 
 import matplotlib.pyplot as plt
@@ -15,7 +14,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-
 
 # Create a sample time series with intentional quality issues
 dates = pd.date_range(start="2024-01-01", end="2024-12-31", freq="D")
@@ -35,18 +33,15 @@ def assess_time_series_completeness(df, timestamp_col, value_col):
     # Check for missing values
     missing_count = df[value_col].isna().sum()
     total_count = len(df)
-
     # Check for temporal gaps
     time_diff = df[timestamp_col].diff()
     expected_diff = pd.Timedelta(time_diff.mode()[0])
     irregular_intervals = time_diff != expected_diff
-
     # Generate completeness report
     logger.info("Data Completeness Assessment:")
     logger.info(f"Total observations: {total_count}")
     logger.info(f"Missing values: {missing_count} ({missing_count / total_count:.2%})")
     logger.info(f"Irregular intervals: {irregular_intervals.sum()}")
-
     return {
         "missing_ratio": missing_count / total_count,
         "irregular_intervals": irregular_intervals.sum(),
@@ -57,14 +52,11 @@ def detect_anomalies(df, value_col, n_std=3):
     # Calculate rolling statistics
     rolling_mean = df[value_col].rolling(window=7, center=True).mean()
     rolling_std = df[value_col].rolling(window=7, center=True).std()
-
     # Define bounds for anomaly detection
     upper_bound = rolling_mean + (n_std * rolling_std)
     lower_bound = rolling_mean - (n_std * rolling_std)
-
     # Identify anomalies
     anomalies = (df[value_col] > upper_bound) | (df[value_col] < lower_bound)
-
     return anomalies, upper_bound, lower_bound
 
 
@@ -86,15 +78,12 @@ plt.show()
 def preprocess_time_series(df, timestamp_col, value_col, target_freq="D"):
     # Sort by timestamp
     df = df.sort_values(timestamp_col)
-
     # Create regular time index
     full_idx = pd.date_range(
         start=df[timestamp_col].min(), end=df[timestamp_col].max(), freq=target_freq
     )
-
     # Reindex and interpolate
     df_regular = df.set_index(timestamp_col).reindex(full_idx)
-
     # Handle missing values with multiple methods
     df_regular["linear_interpolation"] = df_regular[value_col].interpolate(
         method="linear"
@@ -105,12 +94,10 @@ def preprocess_time_series(df, timestamp_col, value_col, target_freq="D"):
     df_regular["backward_fill"] = df_regular[
         value_col
     ].bfill()  # Changed from fillna(method='bfill')
-
     # Add rolling statistics
     df_regular["rolling_mean"] = (
         df_regular[value_col].rolling(window=7, min_periods=1).mean()
     )
-
     return df_regular
 
 
@@ -118,19 +105,15 @@ def validate_preprocessing(original_df, processed_df, value_col):
     # Compare basic statistics
     original_stats = original_df[value_col].describe()
     processed_stats = processed_df["linear_interpolation"].describe()
-
     # Check for remaining missing values
     remaining_missing = processed_df["linear_interpolation"].isna().sum()
-
     # Assess distribution similarity
     ks_statistic, p_value = stats.ks_2samp(
         original_df[value_col].dropna(), processed_df["linear_interpolation"].dropna()
     )
-
     logger.info("Validation Results:")
     logger.info(f"Remaining missing values: {remaining_missing}")
     logger.info(f"Distribution similarity test p-value: {p_value:.4f}")
-
     return {
         "original_stats": original_stats,
         "processed_stats": processed_stats,
