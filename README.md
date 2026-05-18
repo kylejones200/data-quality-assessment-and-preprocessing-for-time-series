@@ -2,6 +2,14 @@
 
 This project demonstrates data quality assessment and preprocessing techniques for time series data.
 
+## Business context
+
+The quality of time series analysis directly depends on the quality of the underlying data. While this principle seems obvious, data quality issues in temporal data present unique challenges that can undermine even the most sophisticated analytical methods. This chapter explores the systematic approach to assessing and preprocessing time series data, ensuring that subsequent analyses yield reliable and meaningful results.
+
+Time series data quality encompasses several dimensions beyond those of traditional datasets. The temporal nature of the data introduces requirements for consistency in sampling intervals, handling of missing values, and management of anomalies that could distort time-dependent patterns. A single corrupted observation can impact not just its own time point but also affect seasonal patterns, trend calculations, and forecasting accuracy.
+
+Let's begin with a practical example using Python to assess the quality of a typical time series dataset:
+
 ## Article
 
 Medium article: [Data Quality Assessment and Preprocessing for Time Series](https://medium.com/@kylejones_47003/data-quality-assessment-and-preprocessing-for-time-series-59af0a237dc7)
